@@ -1,0 +1,4 @@
+name: crud-api-lambda-dynamodb
+runtime:
+  name: python
+description: Build a CRUD API with Lambda and DynamoDB
