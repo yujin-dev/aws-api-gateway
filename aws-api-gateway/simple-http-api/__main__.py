@@ -97,6 +97,14 @@ def create_http_proxy(integration_function):
             protocol_type="HTTP",
             name="http-crud-tutorial-api"
         )
+    # HTTP API의 Stage를 생성하여 배포
+    aws.apigatewayv2.Stage("http-api-stage",
+        api_id=api.id,
+        name = "hello",
+        auto_deploy=True
+    )
+    # integration type = Lambda Function으로 하여 integration 생성
+    # *Lambda funcion은 integration_type을 AWS_PROXY로 하여 integration_uri에 lambda function의 invoke_arn을 설정해야 함
     integration = aws.apigatewayv2.Integration("integration", 
         api_id = api.id,
         integration_type="AWS_PROXY",
