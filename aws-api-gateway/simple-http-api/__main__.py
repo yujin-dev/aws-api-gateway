@@ -1,8 +1,10 @@
 import pulumi
 import pulumi_aws as aws
 import json
+import boto3
 
 def create_dynamodb_table():
+    # Dynamodb table을 생성
     return aws.dynamodb.Table("dynamodb-table",
     name="http-crud-tutorial-items",
     attributes=[
@@ -93,6 +95,7 @@ def create_lambda_function():
     return function
 
 def create_http_proxy(integration_function):
+    # HTTP API 생성
     api = aws.apigatewayv2.Api("http-api",
             protocol_type="HTTP",
             name="http-crud-tutorial-api"
@@ -110,6 +113,7 @@ def create_http_proxy(integration_function):
         integration_type="AWS_PROXY",
         integration_uri=integration_function.invoke_arn
     )
+    # Routes 생성 및 integration 연동
     routes = [
         "GET /items/{id}",
         "GET /items",
