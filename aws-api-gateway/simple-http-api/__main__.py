@@ -125,5 +125,5 @@ def create_http_proxy(integration_function):
 ############ setup ############
 
 create_dynamodb_table()
-create_lambda_function()
-create_http_proxy()
+fn = create_lambda_function()
+create_http_proxy(fn)
