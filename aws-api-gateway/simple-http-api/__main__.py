@@ -80,8 +80,8 @@ def create_lambda_function():
         name=fn_name,
         code=pulumi.FileArchive("sample.zip"), # index.js를 압축한 파일
         role=role.arn,
-        handler="index.js",
-        runtime="nodejs16.x",
+        handler="index.handler",
+        runtime="nodejs12.x",
         timeout=120,
     )
     # API Gateway에서 lambda function을 실행할 수 있도록 permisson 추가
