@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
   };
 
   try {
-    switch (event.routeKey) {
+    switch (event.requestContext.resourceId) {
       case "DELETE /items/{id}":
         await dynamo
           .delete({
@@ -50,7 +50,7 @@ exports.handler = async (event, context) => {
         body = `Put item ${requestJSON.id}`;
         break;
       default:
-        throw new Error(`Unsupported route: "${event.routeKey}"`);
+        throw new Error(`Unsupported route: "${event.requestContext.resourceId}"`);
     }
   } catch (err) {
     statusCode = 400;
