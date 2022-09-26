@@ -17,6 +17,47 @@ def create_dynamodb_table():
     write_capacity=5)
 
 def create_lambda_function():
+    fn_name="http-crud-tutorial-function"
+    account = boto3.client('sts').get_caller_identity()["Account"]
+
+    # dynamodb 및 cloudwatch log 그룹에 대한 권한을 포함한 policy 생성
+    policy = aws.iam.Policy("role-policy",
+        name="http-crud-tutorial-role-policy",
+        policy=json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "dynamodb:DeleteItem",
+                            "dynamodb:GetItem",
+                            "dynamodb:PutItem",
+                            "dynamodb:Scan",
+                            "dynamodb:UpdateItem"
+                        ],
+                        "Resource": f"arn:aws:dynamodb:us-east-1:{account}:table/*"
+                    },
+                    {
+                        "Effect": "Allow",
+                        "Action": "logs:CreateLogGroup",
+                        "Resource": f"arn:aws:logs:us-east-1:{account}:*"
+                    },
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "logs:CreateLogStream",
+                            "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                            f"arn:aws:logs:us-east-1:{account}:log-group:/aws/lambda/{fn_name}:*"
+                        ]
+                    }
+                ]
+            }
+        )
+    )
+    # 위의 policy를 포함한 role을 생성하여 lambda에 위임하도록 함 
     role = aws.iam.Role(
         "lambda-execution-role",
         assume_role_policy=json.dumps(
@@ -31,13 +72,13 @@ def create_lambda_function():
                 ],
             }
         ),
-        managed_policy_arns=["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"],
+        managed_policy_arns=[policy.arn],
         name="http-crud-tutorial-role",
         description="Lambda execution role with logging permitted",
     )
-    return aws.lambda_.Function("lambda-function",
-        name="http-crud-tutorial-function",
-        code=pulumi.Archive("sample.zip"),
+    function = aws.lambda_.Function("lambda-function",
+        name=fn_name,
+        code=pulumi.FileArchive("sample.zip"), # index.js를 압축한 파일
         role=role.arn,
         handler="index.js",
         runtime="nodejs16.x",
