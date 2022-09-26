@@ -84,6 +84,13 @@ def create_lambda_function():
         runtime="nodejs16.x",
         timeout=120,
     )
+    # API Gateway에서 lambda function을 실행할 수 있도록 permisson 추가
+    aws.lambda_.Permission("lambda-function-permission",
+        function=fn_name,
+        action="lambda:InvokeFunction",
+        principal="apigateway.amazonaws.com"
+    )
+    return function
 
 def create_http_proxy(integration_function):
     api = aws.apigatewayv2.Api("http-api",
