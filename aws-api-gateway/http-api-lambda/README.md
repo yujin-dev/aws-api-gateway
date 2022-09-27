@@ -54,24 +54,3 @@ $ pulumi up
 ```console
 $ pulumi destroy
 ```
-
-### Considerations
-AWS 콘솔에서 Lambda에서 서비스 실행을 위한 role template을 Simple microservice permissions으로 설정하면 다음과 같은 형태입니다.
-```json
-    {
-      "Sid": "xxxxxx",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "apigateway.amazonaws.com"
-      },
-      "Action": "lambda:InvokeFunction",
-      "Resource": "arn:aws:lambda:{region}:{account}:function:http-crud-tutorial-function",
-      "Condition": {
-        "ArnLike": {
-          "AWS:SourceArn": "arn:aws:execute-api:{region}:{account}:{api-id}/*/*/items"
-        }
-      }
-    }
-```
-
-- Role에 부여되어 생성되는 policy에 SourceARN을 조건에 추가하여 요청 주체의 리소스의 ARN을 비교합니다
