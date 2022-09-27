@@ -1,0 +1,4 @@
+name: rest-api-proxy
+runtime:
+  name: python
+description: Build a REST API with Lambda - PROXY
