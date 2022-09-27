@@ -6,10 +6,102 @@
 
 
 ## Test
-```console
-$ curl -v -X POST \
-  'https://bic0v5uvn0.execute-api.us-east-1.amazonaws.com/test/hello?name=John&city=Seattle' \
-  -H 'content-type: application/json' \
-  -H 'day: Thursday' \
-  -d '{ "time": "evening" }'
-```
+
+![](img/2022-09-27-13-22-24.png)
+
+- Request: `/hello?name=John&city=Seattle`
+Status: 200
+- Latency: 73 ms
+- Response Body
+    ```json
+    {
+        "message": "Good evening, John of Seattle. Happy  Thursday!",
+        "input": {
+            "resource": "/hello",
+            "path": "/hello",
+            "httpMethod": "POST",
+            "headers": {
+                "content-type": " application/json",
+                "day": " Thursday"
+            },
+            "multiValueHeaders": {
+                "content-type": [
+                    " application/json"
+            ],
+            "day": [
+                " Thursday"
+            ]
+            },
+            "queryStringParameters": {
+                "city": "Seattle",
+                "name": "John"
+            },
+            "multiValueQueryStringParameters": {
+            "city": [
+                "Seattle"
+            ],
+            "name": [
+                "John"
+            ]
+            },
+            "pathParameters": null,
+            "stageVariables": null,
+            "requestContext": {
+            "resourceId": "f3cpcm",
+            "resourcePath": "/hello",
+            "httpMethod": "POST",
+            ...
+            "body": "{ \"time\": \"evening\" }",
+            "isBase64Encoded": false
+        }
+    }
+    ```
+ 
+![](img/2022-09-27-13-26-41.png)
+- Request: `/hello?name=John&city=Seattle`
+- Status: 200
+- Latency: 20 ms
+- Response Body
+    ```json
+    {
+        "message": "Good evening, John of Seattle. Happy  Thursday!",
+        "input": {
+            "resource": "/hello",
+            "path": "/hello",
+            "httpMethod": "GET",
+            "headers": {
+                "content-type": " application/json",
+                "day": " Thursday"
+            },
+            "multiValueHeaders": {
+            "content-type": [
+                " application/json"
+            ],
+            "day": [
+                " Thursday"
+            ]
+            },
+            "queryStringParameters": {
+            "city": "Seattle",
+            "name": "John"
+            },
+            "multiValueQueryStringParameters": {
+            "city": [
+                "Seattle"
+            ],
+            "name": [
+                "John"
+            ]
+            },
+            "pathParameters": null,
+            "stageVariables": null,
+            "requestContext": {
+            "resourceId": "f3cpcm",
+            "resourcePath": "/hello",
+            "httpMethod": "GET",
+            ...
+            "body": "{ \"time\": \"evening\" }",
+            "isBase64Encoded": false
+        }
+    }
+    ```
