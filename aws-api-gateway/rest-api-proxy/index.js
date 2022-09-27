@@ -38,12 +38,10 @@ exports.handler = async (event) => {
         input: event
     };
     
-    // The output from a Lambda proxy integration must be 
-    // in the following JSON object. The 'headers' property 
-    // is for custom response headers in addition to standard 
-    // ones. The 'body' property  must be a JSON string. For 
-    // base64-encoded payload, you must also set the 'isBase64Encoded'
-    // property to 'true'.
+    // Lambda proxy integration에서 결과값은 반드시 JSON 형식이어야 함
+    // headers : custom response header 
+    // body : JSON
+    // base64-encoded payload의 경우 isBase64Encoded = True로 설정해야 함
     let response = {
         statusCode: responseCode,
         headers: {
