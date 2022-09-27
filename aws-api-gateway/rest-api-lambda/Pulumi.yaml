@@ -1,0 +1,4 @@
+name: rest-api-lambda
+runtime:
+  name: python
+description: Build a REST API with Lambda

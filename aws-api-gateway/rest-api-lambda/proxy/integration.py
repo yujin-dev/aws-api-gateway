@@ -2,7 +2,7 @@ import pulumi
 import pulumi_aws as aws
 import json
 import boto3
-
+import os
 
 def create_lambda_function():
     fn_name="lambda-proxy-integration"
@@ -55,7 +55,7 @@ def create_lambda_function():
     )
     function = aws.lambda_.Function("lambda-function",
         name=fn_name,
-        code=pulumi.FileArchive("sample.zip"),
+        code=pulumi.FileArchive(os.path.join(os.path.dirname(__file__), "sample.zip")),
         role=role.arn,
         handler="index.handler",
         runtime="nodejs12.x",
@@ -95,8 +95,3 @@ def create_rest_proxy(integration_function: aws.lambda_.Function):
         uri=integration_function.invoke_arn,
         integration_http_method="POST"
     )
-
-############ setup ############
-
-fn = create_lambda_function()
-create_rest_proxy(fn)
