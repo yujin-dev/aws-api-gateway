@@ -61,6 +61,13 @@ def create_lambda_function():
         runtime="nodejs12.x",
         timeout=120,
     )
+
+    # API Gateway에서 lambda function을 실행할 수 있도록 permisson 추가
+    aws.lambda_.Permission("lambda-function-permission",
+        function=fn_name,
+        action="lambda:InvokeFunction",
+        principal="apigateway.amazonaws.com",
+    )
     return function
 
 def create_rest_proxy(integration_function: aws.lambda_.Function):
@@ -87,14 +94,6 @@ def create_rest_proxy(integration_function: aws.lambda_.Function):
         type="AWS_PROXY",
         uri=integration_function.invoke_arn,
         integration_http_method="POST"
-    )
-    # API Gateway에서 lambda function을 실행할 수 있도록 permisson 추가
-    account = boto3.client('sts').get_caller_identity()["Account"]
-    aws.lambda_.Permission("lambda-function-permission",
-        function=integration_function.name,
-        action="lambda:InvokeFunction",
-        principal="apigateway.amazonaws.com",
-        # source_arn=pulumi.Output.all(api.id, method.http_method, resource.path).apply(lambda id, http_method, path: f"arn:aws:execute-api:us-east-1:{account}:{id}/*/{http_method}{path}"),
     )
 
 ############ setup ############
