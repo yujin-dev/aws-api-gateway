@@ -1,11 +1,16 @@
-# Build an API Gateway REST API with Lambda integration - Proxy
+# Build an API Gateway REST API with Lambda integration
+
+## Proxy
 
 [Tutorial: Build a Hello World REST API with Lambda proxy integration](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html)를 pulumi로 구현합니다.
 
 **Lambda proxy integration**에서는 lambda 함수에 대한 input을 equest headers / path variables / query string parameters / body를 조합하여 사용합니다.
 
-
-## Test
+### Config
+```console
+$ pulumi config set is_proxy true 
+```
+### Test
 
 ![](img/2022-09-27-13-22-24.png)
 
@@ -105,3 +110,12 @@ Status: 200
         }
     }
     ```
+
+
+## Non-proxy
+[Tutorial: Build an API Gateway REST API with Lambda non-proxy integration](https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-lambda-non-proxy-integration.html)를 pulumi로 구현합니다.
+
+### Config
+```console
+$ pulumi config set is_proxy false 
+```
