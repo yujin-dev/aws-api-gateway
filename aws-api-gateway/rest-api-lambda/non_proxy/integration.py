@@ -4,7 +4,6 @@ import json
 import boto3
 import os
 
-from requests import request
 
 def create_lambda_function():
     fn_name="lambda-non-proxy-integration"
@@ -33,7 +32,7 @@ def create_lambda_function():
         }
     )
     
-    # 위의 policy를 포함한 role을 생성하여 lambda에 위임하도록 함 
+    # 위의 policy를 포함한 role을 생성하여 lambda에 위임하도록 함
     role = aws.iam.Role(
         "lambda-execution-role",
         assume_role_policy=json.dumps(
@@ -127,5 +126,5 @@ def create_rest_non_proxy(integration_function: aws.lambda_.Function):
 "day":  "$input.params('day')",
 "name": "$inputRoot.callerName"
 }"""
-        }   
+        }
     )

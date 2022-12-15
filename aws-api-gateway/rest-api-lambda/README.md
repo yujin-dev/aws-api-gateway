@@ -119,3 +119,6 @@ Status: 200
 ```console
 $ pulumi config set is_proxy false 
 ```
+
+### pulumi aws apigateway
+https://www.pulumi.com/docs/guides/crosswalk/aws/api-gateway/
