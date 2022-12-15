@@ -1,1 +1,4 @@
 __pycache__/
+apache-druid-*
+kafka_*
+*.csv
